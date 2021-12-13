@@ -1,0 +1,310 @@
+---
+title: "ML Final"
+author: "Liz G"
+date: "12/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Set Up
+
+## Packages and Import
+
+```{r}
+require(caret)
+  require(recipes)
+  require(ranger)
+  require(tidyverse)
+  require(ModelMetrics)
+  require(here)
+  require(finalfit)
+  require(Hmisc)
+  require(rsample)
+```
+
+
+```{r}
+og_data <- read.csv(here("data", "OPP_PRO_Clean.csv"), na.strings = "")
+
+og_data <- og_data %>% select(-starts_with("x")) %>% #taking out unwanted variables
+                        select(-matches("PSI_total_r|PSI_total_PR")) %>%
+                         select(study_id, PSI_total_clinical, any_of(names(og_data))) %>%
+                          filter(!is.na(PSI_total_clinical))
+
+
+#taking out unwanted variables, putting in order
+
+head(og_data)
+
+
+```
+
+## Visualizing Missing Data
+```{r}
+look <- ff_glimpse(og_data)
+
+look$Continuous %>% arrange(missing_n)
+look$Categorical %>% arrange(missing_n)
+
+#Examine levels for categorical data
+look$Categorical %>% select(label, n, levels_n)
+
+#look @ distributions of numeric data
+cont_labels <- look$Continuous$label
+hist.data.frame(og_data %>% select(all_of(cont_labels)))
+
+```
+
+
+Preprocessing Steps - 
+1) Get rid of rows with no outcome data (moved out of blueprint for error testing)
+2) Missing variable column for - AC Age, TC_sib (NA is meaningful)
+3) Make yrs ed into numeric variable
+  Make income into numeric variable 
+  Make age @ dx into numeric variable
+4) For factor variables w/ high number of levels, make "other" 
+5) Dummy code categorical variables, and drop OG
+6) Multiple imputation is reasonable for most variables
+7) For variables where NA is meaningful (= absence of AC or sib, set remaining values to 0 for regression models)
+
+
+## Making a Blueprint
+
+
+```{r}
+outcome <- "PSI_total_clinical"
+cat2num <- names(select(og_data, matches("yrs_ed|diagnosis_age|income"))) #variables that will be recoded to be numeric
+categorical <- names(select(og_data, where(is.character) & !(matches("id|PSI"))))
+categorical <- categorical[!categorical %in% cat2num]
+numeric <- c(names(select(og_data, where(is.numeric))), cat2num)
+already_dum <- names(select(og_data, matches("TC_race|gov_assist|TC_sib_yes_ct"))) #some variables already "dummy" coded
+true_numeric <- numeric[!numeric %in% already_dum]
+na_true <- names(select(og_data, matches("AC|TC_sib", ignore.case = FALSE))) #don't impute data for alternate caregiver or subling variables
+impute_vars <- true_numeric[!true_numeric %in% na_true]
+
+stress_blueprint <- recipe(x = og_data, 
+                    vars = names(og_data),
+                    roles = c("ID", "outcome", rep("predictor", 86))) %>% 
+                    #step_filter(!is.na(PSI_total_clinical), skip = FALSE) %>%
+                    step_indicate_na(matches("AC_age", "TC_sib_yes_ct")) %>%
+                    step_other(matches("PC_reltoTC|employment|TC_diagnosis|PC_marital_status|TC_SPED")) %>%
+  #making yrs ed numeric
+                    step_mutate(across(matches("yrs_ed"), ~case_when(
+                    str_detect(., "No formal") ~ 0,
+                    str_detect(., "7th grade") ~ 7, 
+                    str_detect(., "Junior high") ~ 8,
+                    str_detect(., "Partial high school") ~ 9,
+                    str_detect(., "GED") ~ 12,
+                    str_detect(., "Partial college") ~ 13,
+                    str_detect(., "Specialized") ~ 14,
+                    str_detect(., "Associates") ~ 14,
+                    str_detect(., "university grad") ~ 16,
+                    str_detect(., "Grad prof") ~ 18))) %>%
+  #making dx age numeric
+                    step_mutate(across(matches("diagnosis_age"), ~case_when(
+                    str_detect(., "At birth") ~ 6,
+                    str_detect(., "One") ~ 18, 
+                    str_detect(., "Two") ~ 30,
+                    str_detect(., "Three") ~ 42,
+                    str_detect(., "Four") ~ 54,
+                    str_detect(., "Five") ~ 66))) %>%
+  #making annual income numeric
+                    step_mutate(PC_annual_income = 
+                                  ifelse(str_detect(PC_annual_income, "less"), 2500,
+                                  ifelse(str_detect(PC_annual_income, "14,999"), 12500,
+                                  ifelse(str_detect(PC_annual_income, "19,999"), 17500,
+                                  ifelse(str_detect(PC_annual_income, "24,999"), 22500,
+                                  ifelse(str_detect(PC_annual_income, "29,999"), 27500,
+                                  ifelse(str_detect(PC_annual_income, "39,999"), 35000,
+                                  ifelse(str_detect(PC_annual_income, "49,999"), 45000,
+                                  ifelse(str_detect(PC_annual_income, "59,999"), 55000,
+                                  ifelse(str_detect(PC_annual_income, "69,999"), 65000,
+                                  ifelse(str_detect(PC_annual_income, "79,999"), 75000,
+                                  ifelse(str_detect(PC_annual_income, "89,999"), 85000,
+                                  ifelse(str_detect(PC_annual_income, "more"), 95000,
+                                  ifelse(is.na(PC_annual_income), NA, 7500)))))))))))))) %>% #5,000 and $9,999 in all others
+                    step_impute_mode(all_of(categorical)) %>%
+                    step_zv(all_of(numeric)) %>%
+                    step_dummy(all_of(categorical)) %>%
+                    step_mutate(across(matches("AC|TC_sib", ignore.case = FALSE), 
+                                       ~replace_na(., 0))) %>%
+                    step_impute_knn(all_of(impute_vars), all_of(already_dum)) #%>%
+                    step_normalize(all_of(true_numeric))
+
+
+prepare <- prep(stress_blueprint, training = og_data)
+stress_data <- bake(prepare, new_data = og_data)
+
+head(stress_data)
+
+#Check for missingness
+look2 <- ff_glimpse(stress_data)
+
+look2$Continuous %>% arrange(desc(missing_n)) %>% filter(missing_n > 0)
+look2$Categorical %>% arrange(missing_n) %>% filter(missing_n > 0)
+
+```
+
+
+## Test and Training Set
+
+```{r}
+  set.seed(121221)
+  split <- initial_split(og_data, prop = .75)
+  stress_train <- training(split)
+  stress_test <- testing(split)
+  
+prep <- prep(stress_blueprint, 
+                training = stress_train)
+
+baked_train <- bake(prepare, new_data = stress_train)
+  
+baked_test <- bake(prepare, new_data = stress_test)
+  
+
+```
+
+
+
+## Functions
+
+```{r}
+##Making a crossfold function
+
+crossfold_log <- function(training_data, folds){
+  
+  #shuffle data
+  traning_data <- training_data[sample(nrow(training_data)),]
+  
+
+    # Create 10 folds with equal size
+
+      N_folds = cut(seq(1,nrow(training_data)),breaks= folds,labels=FALSE)
+  
+    # Create the list for each fold 
+      
+      my.indices <- vector('list',folds)
+      for(i in 1:folds){
+        my.indices[[i]] <- which(N_folds!=i)
+      }
+      
+      #cross validation settings
+      
+      cv <- trainControl(method    = "cv",
+                   index           = my.indices,
+                   classProbs      = TRUE,
+                   summaryFunction = mnLogLoss)
+      
+      
+return(cv)
+}
+
+#Making an accuracy function 
+
+accuracy <- function(observed_vector, predicted_vector){
+tab <- table(predicted_vector,
+             observed_vector,
+             dnn = c('Predicted','Observed'))
+
+
+
+tn <- tab[1,1]
+tp <- tab[2,2]
+fp <- tab[2,1]
+fn <- tab[1,2]
+
+acc <- (tp + tn)/(tp+tn+fp+fn)
+
+return(acc)
+}
+```
+
+
+
+
+# Model Building
+
+## Model 1
+
+Ridge Regression
+
+```{r}
+
+cf <- crossfold_log(stress_train, 10) #error occurs for both stress_train and baked_train
+  
+folds <- vfold_cv(stress_train, 10)
+
+cv <- trainControl(method    = "cv",
+                   number = 10,
+                   classProbs      = TRUE,
+                   summaryFunction = mnLogLoss)
+
+
+
+
+ridge_grid <- data.frame(alpha = 0, lambda = c(seq(.01, .1, .001), 5, 10, 100))
+
+mod_1 <- caret::train(stress_blueprint, 
+                      data = stress_train,
+                         method    = "glmnet",
+                         family    = 'binomial',
+                         metric    = 'logLoss',
+                        trControl = cf,
+                        tuneGrid  = ridge_grid)
+mod_1$bestTune
+
+```
+
+I get an error - "number of rows of result is not a multiple of vector length (arg 1)"... It's possible rows are not lining up correctly either w/ the blueprint or cross validation settings. blueprint seems to be working to "bake" data... 
+When filter step applied prior to blueprint, get errors for applying blueprint within model.. 
+
+
+## Model 2
+
+Random Forests
+
+
+```{r}
+cf <- crossfold_log(stress_train, 10)
+
+# Grid settings
+grid <- expand.grid(mtry = 30,
+                    splitrule='gini',
+                    min.node.size=2)
+
+
+mod_2 <- caret::train(stress_blueprint,
+                        data      = stress_train,
+                        method    = 'ranger',
+                        trControl = cf,
+                        tuneGrid  = grid,
+                        num.trees = 500,
+                        max.depth = 10)
+```
+
+Similar error occurs here, 
+
+
+x Existing data has 27 rows.
+x Assigned data has 28 rows.
+
+It seems something is potentially going badly when making the cv setting - perhaps because blueprint uses some filter function? 
+
+
+
+
+
+
+
+##Code Graveyard
+```{r}
+                    #step_mutate(PC_reltoTC = 
+                                  #ifelse(str_detect(PC_reltoTC, "Grandma|Grandpa|Aunt|Uncle"), "Kinship", 
+                                         #ifelse(str_detect(PC_reltoTC, "Bio"), "Bio Parent", 
+                                         #ifelse(str_detect(PC_reltoTC, "Adoptive|Partner|Step"), "Adoptive", 
+                                         #ifelse(str_detect(PC_reltoTC, "Foster"), "Foster", NA)))))
+                    #taken out for now, but could re-implement if need to get more specific
+```
+
