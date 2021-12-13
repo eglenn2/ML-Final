@@ -1,0 +1,1243 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{ML Final}
+\author{Liz G}
+\date{12/9/2021}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={ML Final},
+  pdfauthor={Liz G},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{set-up}{%
+\section{Set Up}\label{set-up}}
+
+\hypertarget{packages-and-import}{%
+\subsection{Packages and Import}\label{packages-and-import}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{require}\NormalTok{(caret)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: caret
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(recipes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: recipes
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: dplyr
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'recipes'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     step
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(ranger)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ranger
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: tidyverse
+\end{verbatim}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v tibble  3.1.5     v purrr   0.3.4
+## v tidyr   1.1.4     v stringr 1.4.0
+## v readr   2.0.2     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter()  masks stats::filter()
+## x stringr::fixed() masks recipes::fixed()
+## x dplyr::lag()     masks stats::lag()
+## x purrr::lift()    masks caret::lift()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(ModelMetrics)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ModelMetrics
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'ModelMetrics'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:caret':
+## 
+##     confusionMatrix, precision, recall, sensitivity, specificity
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     kappa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(here)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: here
+\end{verbatim}
+
+\begin{verbatim}
+## here() starts at C:/Users/epgle/Desktop/Fall 2021 Classes/EDLD 654 Machine Learning/Class Assignments/Final Project/ML-Final
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(finalfit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: finalfit
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(Hmisc)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Hmisc
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: survival
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'survival'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:caret':
+## 
+##     cluster
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Formula
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Hmisc'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     src, summarize
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     format.pval, units
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(rsample)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: rsample
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{require}\NormalTok{(vip)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: vip
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'vip'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:utils':
+## 
+##     vi
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{og\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"OPP\_PRO\_Clean.csv"}\NormalTok{), }\AttributeTok{na.strings =} \StringTok{""}\NormalTok{)}
+
+\NormalTok{og\_data }\OtherTok{\textless{}{-}}\NormalTok{ og\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{starts\_with}\NormalTok{(}\StringTok{"x"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\#taking out unwanted variables}
+                        \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{matches}\NormalTok{(}\StringTok{"PSI\_total\_r|PSI\_total\_PR"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+                         \FunctionTok{select}\NormalTok{(study\_id, PSI\_total\_clinical, }\FunctionTok{any\_of}\NormalTok{(}\FunctionTok{names}\NormalTok{(og\_data))) }\SpecialCharTok{\%\textgreater{}\%}
+                          \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(PSI\_total\_clinical))}
+
+
+\CommentTok{\#taking out unwanted variables, putting in order}
+
+\FunctionTok{head}\NormalTok{(og\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   study_id PSI_total_clinical TC_age_mos PC_age AC_age TC_gender PC_gender
+## 1    OP101                Yes         42     37     40      Male    Female
+## 2    OP102                Yes         32     27     NA    Female    Female
+## 3    OP103                Yes         42     30     29      Male    Female
+## 4    OP104                 No         30     38     35      Male      Male
+## 5    OP105                Yes         41     32     37      Male    Female
+## 6    OP106                Yes         41     37     38      Male    Female
+##   PC_reltoTC PC_marital_status PC_partner_inhome TC_race_Wh TC_race_Bl
+## 1    Bio Mom           Married               Yes          1          0
+## 2    Bio Mom            Single                No          1          0
+## 3    Bio Mom           Married               Yes          1          0
+## 4    Bio Dad   Living together               Yes          1          0
+## 5    Bio Mom           Married               Yes          1          0
+## 6 Foster Mom           Married               Yes          0          0
+##   TC_race_His TC_race_As TC_race_Nat TC_race_Pac TC_race_Oth
+## 1           0          0           0           0           0
+## 2           0          0           0           0           0
+## 3           0          0           0           0           0
+## 4           0          0           0           0           0
+## 5           0          0           0           0           0
+## 6           0          0           1           0           0
+##                              PC_yrs_ed                        AC_yrs_ed
+## 1                          HS grad-GED             Specialized training
+## 2                          HS grad-GED                             <NA>
+## 3                  Partial high school              Partial high school
+## 4                      Partial college                  Partial college
+## 5                      Partial college                  Partial college
+## 6 Standard college-university graduate Junior college-Associates degree
+##         PC_employment PC_employ_hours       AC_employment   PC_annual_income
+## 1 Full time homemaker               0           Full time $80,000 to $89,999
+## 2          Unemployed               0                <NA>   $5,000 to $9,999
+## 3 Full time homemaker               0           Full time $20,000 to $24,999
+## 4           Part time              24 Full time homemaker $10,000 to $14,999
+## 5 Full time homemaker               0           Part time $40,000 to $49,999
+## 6           Part time              20           Full time $80,000 to $89,999
+##   gov_assist PC_fam_learning PC_fam_mentalh              TC_diagnosis
+## 1          1              No             No                       ASD
+## 2          1              No            Yes     Speech/Language Delay
+## 3          1              No            Yes Social-Emotional Disorder
+## 4          1             Yes             No                       ASD
+## 5          1              No             No     Speech/Language Delay
+## 6          1             Yes             No     Speech/Language Delay
+##                 TC_diagnosis_age TC_SPED TC_other_services dyad_adjust
+## 1   Two-years old (24-35 months)     Yes               Yes         104
+## 2    One-year old (12-23 months)     Yes               Yes         102
+## 3 Three-years old (36-47 months)     Yes               Yes         112
+## 4    One-year old (12-23 months)     Yes               Yes          98
+## 5 Three-years old (36-47 months)     Yes               Yes          84
+## 6   Two-years old (24-35 months)     Yes               Yes         139
+##   fam_support informal_support formal_support CES_D CBCL_int_r CBCL_ext_r
+## 1           3               13             13    30         29         19
+## 2           8                6             20    19         32         46
+## 3           8               11             20    38         26         25
+## 4           9                8             25    17         21         17
+## 5          11                8              6    22         22         39
+## 6          23               23             23     1         25         28
+##   VABS_comm_ss VABS_dls_ss VABS_soc_ss VABS_mot_ss PCBOS_Aggr_CU
+## 1           59          64          65          81             0
+## 2           69          78          80          69             0
+## 3           65          75          66          78             0
+## 4           66          87          68         100             0
+## 5           74          83          61          88             0
+## 6           69          81          85          91             0
+##   PCBOS_Aggr_Play PCBOS_Aggr_SA PCBOS_Crit_CU PCBOS_Crit_Play PCBOS_Crit_SA
+## 1               0             0             0               0             0
+## 2               0             0             0               0             2
+## 3               0             0             0               0             0
+## 4               0             0             0               0             0
+## 5               0             0             0               0             4
+## 6               0             0             0               0             0
+##   PCBOS_CU_Comm PCBOS_CU_Comp PCBOS_DescComm_CU PCBOS_DescComm_Play
+## 1             8             0                 1                   1
+## 2            31             2                 0                   5
+## 3             8             8                 0                   6
+## 4             7             0                 0                   2
+## 5            16            12                 0                   3
+## 6             1             1                 1                   7
+##   PCBOS_DescComm_SA PCBOS_Disr_CU PCBOS_Disr_Play PCBOS_Disr_SA PCBOS_InComm_CU
+## 1                 0             0               0             0               2
+## 2                 0             0               3             0               4
+## 3                 4             0               0             0               3
+## 4                 3             0               0             0               1
+## 5                 3             0               0             0               3
+## 6                 2             0               0             0               0
+##   PCBOS_InComm_Play PCBOS_InComm_SA PCBOS_Intr_CU PCBOS_Intr_Play PCBOS_Intr_SA
+## 1                 7               4             1               4             2
+## 2                 9               5             0               3             3
+## 3                10               1             0               0             1
+## 4                 7               4             0               0             0
+## 5                 4               0             1               1             5
+## 6                 3               1             0               2             0
+##   PCBOS_IP_CU PCBOS_IP_Play PCBOS_IP_SA PCBOS_LackFT_CU PCBOS_LackFT_Play
+## 1           0            15           5               1                10
+## 2           0             8           3               4                 7
+## 3           0            12           2               3                 1
+## 4           0             4           3               0                 0
+## 5           0             4           1               3                 0
+## 6           0             6           4               0                 0
+##   PCBOS_LackFT_SA PCBOS_NegV_CU PCBOS_NegV_Play PCBOS_NegV_SA PCBOS_PhysAgg_CU
+## 1               2             3              14             6                0
+## 2               4             4               0             0                0
+## 3               0             0               0             0                0
+## 4               1             3               0             0                0
+## 5               0             1               1             0                0
+## 6               1             0               0             0                0
+##   PCBOS_PhysAgg_Play PCBOS_PhysAgg_SA PCBOS_PosConsq_CU PCBOS_PosConsq_Play
+## 1                  0                0                 0                   0
+## 2                  0                0                 4                   2
+## 3                  0                0                 0                   0
+## 4                  0                0                 0                   0
+## 5                  0                0                 0                   0
+## 6                  0                0                 0                   0
+##   PCBOS_PosConsq_SA PCBOS_PosV_CU PCBOS_PosV_Play PCBOS_PosV_SA PCBOS_Praise_CU
+## 1                 0             0               4             0               2
+## 2                 0             3              17             2               3
+## 3                 0             0               0             0               1
+## 4                 0             0               0             0               0
+## 5                 0             3              17             5               1
+## 6                 0             4              19             6               3
+##   PCBOS_Praise_Play PCBOS_Praise_SA TC_sib_age_mean TC_sib_behavior_ct
+## 1                 3               0        7.000000                  0
+## 2                 6               8        4.666667                  2
+## 3                 3               5        7.000000                  1
+## 4                 7               3       15.000000                  0
+## 5                 2               5        8.500000                  0
+## 6                11               2        9.000000                  3
+##   TC_sib_learning_ct TC_sib_mentalh_ct TC_sib_n_ct TC_sib_yes_ct
+## 1                  1                 0           1             1
+## 2                  2                 0           3             1
+## 3                  0                 1           2             1
+## 4                  1                 0           1             1
+## 5                  1                 0           2             1
+## 6                  3                 4           7             1
+\end{verbatim}
+
+\hypertarget{visualizing-missing-data}{%
+\subsection{Visualizing Missing Data}\label{visualizing-missing-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{look }\OtherTok{\textless{}{-}} \FunctionTok{ff\_glimpse}\NormalTok{(og\_data)}
+
+\NormalTok{look}\SpecialCharTok{$}\NormalTok{Continuous }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(missing\_n)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                   label var_type   n missing_n missing_percent
+## TC_age_mos                   TC_age_mos    <int> 358         1             0.3
+## TC_race_Wh                   TC_race_Wh    <int> 358         1             0.3
+## TC_race_Bl                   TC_race_Bl    <int> 358         1             0.3
+## TC_race_His                 TC_race_His    <int> 358         1             0.3
+## TC_race_As                   TC_race_As    <int> 358         1             0.3
+## TC_race_Nat                 TC_race_Nat    <int> 358         1             0.3
+## TC_race_Pac                 TC_race_Pac    <int> 358         1             0.3
+## TC_race_Oth                 TC_race_Oth    <int> 358         1             0.3
+## PC_employ_hours         PC_employ_hours    <int> 358         1             0.3
+## gov_assist                   gov_assist    <int> 358         1             0.3
+## TC_sib_yes_ct             TC_sib_yes_ct    <int> 358         1             0.3
+## CBCL_int_r                   CBCL_int_r    <int> 352         7             1.9
+## CBCL_ext_r                   CBCL_ext_r    <int> 352         7             1.9
+## PC_age                           PC_age    <int> 350         9             2.5
+## PCBOS_Aggr_CU             PCBOS_Aggr_CU    <int> 344        15             4.2
+## PCBOS_Aggr_Play         PCBOS_Aggr_Play    <int> 344        15             4.2
+## PCBOS_Aggr_SA             PCBOS_Aggr_SA    <int> 344        15             4.2
+## PCBOS_Crit_CU             PCBOS_Crit_CU    <int> 344        15             4.2
+## PCBOS_Crit_Play         PCBOS_Crit_Play    <int> 344        15             4.2
+## PCBOS_Crit_SA             PCBOS_Crit_SA    <int> 344        15             4.2
+## PCBOS_CU_Comm             PCBOS_CU_Comm    <int> 344        15             4.2
+## PCBOS_CU_Comp             PCBOS_CU_Comp    <int> 344        15             4.2
+## PCBOS_DescComm_CU     PCBOS_DescComm_CU    <int> 344        15             4.2
+## PCBOS_DescComm_Play PCBOS_DescComm_Play    <int> 344        15             4.2
+## PCBOS_DescComm_SA     PCBOS_DescComm_SA    <int> 344        15             4.2
+## PCBOS_Disr_CU             PCBOS_Disr_CU    <int> 344        15             4.2
+## PCBOS_Disr_Play         PCBOS_Disr_Play    <int> 344        15             4.2
+## PCBOS_Disr_SA             PCBOS_Disr_SA    <int> 344        15             4.2
+## PCBOS_InComm_CU         PCBOS_InComm_CU    <int> 344        15             4.2
+## PCBOS_InComm_Play     PCBOS_InComm_Play    <int> 344        15             4.2
+## PCBOS_InComm_SA         PCBOS_InComm_SA    <int> 344        15             4.2
+## PCBOS_Intr_CU             PCBOS_Intr_CU    <int> 344        15             4.2
+## PCBOS_Intr_Play         PCBOS_Intr_Play    <int> 344        15             4.2
+## PCBOS_Intr_SA             PCBOS_Intr_SA    <int> 344        15             4.2
+## PCBOS_IP_CU                 PCBOS_IP_CU    <int> 344        15             4.2
+## PCBOS_IP_Play             PCBOS_IP_Play    <int> 344        15             4.2
+## PCBOS_IP_SA                 PCBOS_IP_SA    <int> 344        15             4.2
+## PCBOS_LackFT_CU         PCBOS_LackFT_CU    <int> 344        15             4.2
+## PCBOS_LackFT_Play     PCBOS_LackFT_Play    <int> 344        15             4.2
+## PCBOS_LackFT_SA         PCBOS_LackFT_SA    <int> 344        15             4.2
+## PCBOS_NegV_CU             PCBOS_NegV_CU    <int> 344        15             4.2
+## PCBOS_NegV_Play         PCBOS_NegV_Play    <int> 344        15             4.2
+## PCBOS_NegV_SA             PCBOS_NegV_SA    <int> 344        15             4.2
+## PCBOS_PhysAgg_CU       PCBOS_PhysAgg_CU    <int> 344        15             4.2
+## PCBOS_PhysAgg_Play   PCBOS_PhysAgg_Play    <int> 344        15             4.2
+## PCBOS_PhysAgg_SA       PCBOS_PhysAgg_SA    <int> 344        15             4.2
+## PCBOS_PosConsq_CU     PCBOS_PosConsq_CU    <int> 344        15             4.2
+## PCBOS_PosConsq_Play PCBOS_PosConsq_Play    <int> 344        15             4.2
+## PCBOS_PosConsq_SA     PCBOS_PosConsq_SA    <int> 344        15             4.2
+## PCBOS_PosV_CU             PCBOS_PosV_CU    <int> 344        15             4.2
+## PCBOS_PosV_Play         PCBOS_PosV_Play    <int> 344        15             4.2
+## PCBOS_PosV_SA             PCBOS_PosV_SA    <int> 344        15             4.2
+## PCBOS_Praise_CU         PCBOS_Praise_CU    <int> 344        15             4.2
+## PCBOS_Praise_Play     PCBOS_Praise_Play    <int> 344        15             4.2
+## PCBOS_Praise_SA         PCBOS_Praise_SA    <int> 344        15             4.2
+## fam_support                 fam_support    <int> 334        25             7.0
+## informal_support       informal_support    <int> 334        25             7.0
+## formal_support           formal_support    <int> 334        25             7.0
+## CES_D                             CES_D    <dbl> 334        25             7.0
+## AC_age                           AC_age    <int> 297        62            17.3
+## VABS_comm_ss               VABS_comm_ss    <int> 285        74            20.6
+## VABS_dls_ss                 VABS_dls_ss    <int> 285        74            20.6
+## VABS_soc_ss                 VABS_soc_ss    <int> 285        74            20.6
+## dyad_adjust                 dyad_adjust    <int> 279        80            22.3
+## TC_sib_behavior_ct   TC_sib_behavior_ct    <int> 279        80            22.3
+## TC_sib_learning_ct   TC_sib_learning_ct    <int> 279        80            22.3
+## TC_sib_mentalh_ct     TC_sib_mentalh_ct    <int> 279        80            22.3
+## TC_sib_n_ct                 TC_sib_n_ct    <int> 279        80            22.3
+## TC_sib_age_mean         TC_sib_age_mean    <dbl> 278        81            22.6
+## VABS_mot_ss                 VABS_mot_ss    <int> 273        86            24.0
+##                      mean   sd  min quartile_25 median quartile_75   max
+## TC_age_mos           43.4 10.5 24.0        36.0   41.0        48.0  71.0
+## TC_race_Wh            0.7  0.5  0.0         0.0    1.0         1.0   1.0
+## TC_race_Bl            0.1  0.3  0.0         0.0    0.0         0.0   1.0
+## TC_race_His           0.4  0.5  0.0         0.0    0.0         1.0   1.0
+## TC_race_As            0.0  0.2  0.0         0.0    0.0         0.0   1.0
+## TC_race_Nat           0.1  0.2  0.0         0.0    0.0         0.0   1.0
+## TC_race_Pac           0.0  0.1  0.0         0.0    0.0         0.0   1.0
+## TC_race_Oth           0.0  0.2  0.0         0.0    0.0         0.0   1.0
+## PC_employ_hours      21.8 26.6  0.0         0.0   11.0        40.0  99.0
+## gov_assist            0.6  0.5  0.0         0.0    1.0         1.0   1.0
+## TC_sib_yes_ct         0.8  0.4  0.0         1.0    1.0         1.0   1.0
+## CBCL_int_r           36.8 25.7  0.0        11.0   36.0        59.0 100.0
+## CBCL_ext_r           42.0 25.0  0.0        19.0   42.5        64.0 100.0
+## PC_age               34.6  7.9 19.0        29.0   34.0        39.0  67.0
+## PCBOS_Aggr_CU         0.0  0.3  0.0         0.0    0.0         0.0   3.0
+## PCBOS_Aggr_Play       0.0  0.3  0.0         0.0    0.0         0.0   3.0
+## PCBOS_Aggr_SA         0.0  0.2  0.0         0.0    0.0         0.0   2.0
+## PCBOS_Crit_CU         0.0  0.2  0.0         0.0    0.0         0.0   3.0
+## PCBOS_Crit_Play       0.1  0.4  0.0         0.0    0.0         0.0   4.0
+## PCBOS_Crit_SA         0.1  0.4  0.0         0.0    0.0         0.0   4.0
+## PCBOS_CU_Comm        20.1 12.8  0.0        11.0   18.0        27.0  68.0
+## PCBOS_CU_Comp         5.2  4.0  0.0         2.0    5.0         8.0  21.0
+## PCBOS_DescComm_CU     0.3  0.7  0.0         0.0    0.0         0.2   4.0
+## PCBOS_DescComm_Play   6.3  3.8  0.0         3.0    6.0         9.0  18.0
+## PCBOS_DescComm_SA     1.9  1.5  0.0         1.0    2.0         3.0   6.0
+## PCBOS_Disr_CU         0.2  0.6  0.0         0.0    0.0         0.0   4.0
+## PCBOS_Disr_Play       0.3  1.2  0.0         0.0    0.0         0.0  13.0
+## PCBOS_Disr_SA         0.1  0.6  0.0         0.0    0.0         0.0   5.0
+## PCBOS_InComm_CU       3.1  1.0  0.0         3.0    3.0         4.0   4.0
+## PCBOS_InComm_Play     6.7  4.5  0.0         3.0    6.0         9.2  19.0
+## PCBOS_InComm_SA       2.9  1.8  0.0         2.0    3.0         4.0   6.0
+## PCBOS_Intr_CU         0.5  0.9  0.0         0.0    0.0         1.0   4.0
+## PCBOS_Intr_Play       5.6  4.0  0.0         3.0    5.0         8.0  20.0
+## PCBOS_Intr_SA         3.0  1.8  0.0         2.0    3.0         5.0   6.0
+## PCBOS_IP_CU           0.1  0.3  0.0         0.0    0.0         0.0   3.0
+## PCBOS_IP_Play         3.8  3.3  0.0         1.0    3.0         6.0  19.0
+## PCBOS_IP_SA           1.5  1.4  0.0         0.0    1.0         2.0   6.0
+## PCBOS_LackFT_CU       2.9  1.2  0.0         2.0    3.0         4.0   4.0
+## PCBOS_LackFT_Play     6.7  4.7  0.0         3.0    6.0        10.0  19.0
+## PCBOS_LackFT_SA       2.8  1.9  0.0         1.0    3.0         5.0   6.0
+## PCBOS_NegV_CU         1.1  1.4  0.0         0.0    0.0         2.0   4.0
+## PCBOS_NegV_Play       1.1  2.7  0.0         0.0    0.0         1.0  20.0
+## PCBOS_NegV_SA         0.8  1.5  0.0         0.0    0.0         1.0   6.0
+## PCBOS_PhysAgg_CU      0.0  0.1  0.0         0.0    0.0         0.0   2.0
+## PCBOS_PhysAgg_Play    0.0  0.2  0.0         0.0    0.0         0.0   2.0
+## PCBOS_PhysAgg_SA      0.0  0.2  0.0         0.0    0.0         0.0   2.0
+## PCBOS_PosConsq_CU     0.2  0.7  0.0         0.0    0.0         0.0   4.0
+## PCBOS_PosConsq_Play   0.2  0.7  0.0         0.0    0.0         0.0   7.0
+## PCBOS_PosConsq_SA     0.0  0.3  0.0         0.0    0.0         0.0   4.0
+## PCBOS_PosV_CU         2.3  1.6  0.0         1.0    3.0         4.0   4.0
+## PCBOS_PosV_Play      14.7  6.7  0.0        12.0   18.0        20.0  20.0
+## PCBOS_PosV_SA         4.2  2.1  0.0         3.0    5.0         6.0   6.0
+## PCBOS_Praise_CU       2.8  3.2  0.0         0.0    2.0         4.0  15.0
+## PCBOS_Praise_Play     6.5  6.5  0.0         2.0    5.0         9.0  41.0
+## PCBOS_Praise_SA       6.2  4.6  0.0         2.0    5.0         9.0  24.0
+## fam_support          12.8  6.1  0.0         9.0   12.0        17.0  30.0
+## informal_support      7.3  5.6  0.0         3.0    6.0        10.0  26.0
+## formal_support       13.9  6.4  0.0         9.0   13.0        19.0  30.0
+## CES_D                13.4 10.4  0.0         6.0   10.5        18.0  48.0
+## AC_age               37.6  8.7 21.0        31.0   36.0        42.0  67.0
+## VABS_comm_ss         75.8 13.8 17.0        67.0   76.0        84.0 143.0
+## VABS_dls_ss          81.2 14.9 35.0        71.0   81.0        91.0 143.0
+## VABS_soc_ss          80.2 12.6 40.0        74.0   79.0        88.0 152.0
+## dyad_adjust         108.4 24.2  5.0        97.0  113.0       125.0 151.0
+## TC_sib_behavior_ct    0.4  0.7  0.0         0.0    0.0         1.0   3.0
+## TC_sib_learning_ct    0.3  0.6  0.0         0.0    0.0         0.0   3.0
+## TC_sib_mentalh_ct     0.3  0.6  0.0         0.0    0.0         0.0   4.0
+## TC_sib_n_ct           1.8  1.2  1.0         1.0    1.0         2.0   7.0
+## TC_sib_age_mean       6.9  4.9  0.0         3.0    6.0        10.0  26.0
+## VABS_mot_ss          83.3 14.4 37.0        73.0   82.0        93.0 144.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{look}\SpecialCharTok{$}\NormalTok{Categorical }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(missing\_n)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                 label var_type   n missing_n missing_percent
+## study_id                     study_id    <chr> 359         0             0.0
+## PSI_total_clinical PSI_total_clinical    <chr> 359         0             0.0
+## TC_gender                   TC_gender    <chr> 358         1             0.3
+## PC_gender                   PC_gender    <chr> 358         1             0.3
+## PC_reltoTC                 PC_reltoTC    <chr> 358         1             0.3
+## PC_marital_status   PC_marital_status    <chr> 358         1             0.3
+## PC_partner_inhome   PC_partner_inhome    <chr> 358         1             0.3
+## PC_yrs_ed                   PC_yrs_ed    <chr> 358         1             0.3
+## PC_employment           PC_employment    <chr> 358         1             0.3
+## PC_fam_learning       PC_fam_learning    <chr> 358         1             0.3
+## PC_fam_mentalh         PC_fam_mentalh    <chr> 358         1             0.3
+## PC_annual_income     PC_annual_income    <chr> 357         2             0.6
+## TC_other_services   TC_other_services    <chr> 357         2             0.6
+## TC_diagnosis             TC_diagnosis    <chr> 356         3             0.8
+## TC_SPED                       TC_SPED    <chr> 350         9             2.5
+## TC_diagnosis_age     TC_diagnosis_age    <chr> 346        13             3.6
+## AC_yrs_ed                   AC_yrs_ed    <chr> 301        58            16.2
+## AC_employment           AC_employment    <chr> 300        59            16.4
+##                    levels_n levels levels_count levels_percent
+## study_id                359      -            -              -
+## PSI_total_clinical        2      -            -              -
+## TC_gender                 2      -            -              -
+## PC_gender                 2      -            -              -
+## PC_reltoTC                9      -            -              -
+## PC_marital_status         6      -            -              -
+## PC_partner_inhome         2      -            -              -
+## PC_yrs_ed                16      -            -              -
+## PC_employment            10      -            -              -
+## PC_fam_learning           2      -            -              -
+## PC_fam_mentalh            2      -            -              -
+## PC_annual_income         13      -            -              -
+## TC_other_services         2      -            -              -
+## TC_diagnosis             15      -            -              -
+## TC_SPED                   4      -            -              -
+## TC_diagnosis_age          6      -            -              -
+## AC_yrs_ed                15      -            -              -
+## AC_employment             9      -            -              -
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Examine levels for categorical data}
+\NormalTok{look}\SpecialCharTok{$}\NormalTok{Categorical }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(label, n, levels\_n)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                 label   n levels_n
+## study_id                     study_id 359      359
+## PSI_total_clinical PSI_total_clinical 359        2
+## TC_gender                   TC_gender 358        2
+## PC_gender                   PC_gender 358        2
+## PC_reltoTC                 PC_reltoTC 358        9
+## PC_marital_status   PC_marital_status 358        6
+## PC_partner_inhome   PC_partner_inhome 358        2
+## PC_yrs_ed                   PC_yrs_ed 358       16
+## AC_yrs_ed                   AC_yrs_ed 301       15
+## PC_employment           PC_employment 358       10
+## AC_employment           AC_employment 300        9
+## PC_annual_income     PC_annual_income 357       13
+## PC_fam_learning       PC_fam_learning 358        2
+## PC_fam_mentalh         PC_fam_mentalh 358        2
+## TC_diagnosis             TC_diagnosis 356       15
+## TC_diagnosis_age     TC_diagnosis_age 346        6
+## TC_SPED                       TC_SPED 350        4
+## TC_other_services   TC_other_services 357        2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#look @ distributions of numeric data}
+\NormalTok{cont\_labels }\OtherTok{\textless{}{-}}\NormalTok{ look}\SpecialCharTok{$}\NormalTok{Continuous}\SpecialCharTok{$}\NormalTok{label}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ cont\_labels) \{}
+  \FunctionTok{hist}\NormalTok{(og\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(i))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Note: Using an external vector in selections is ambiguous.
+## i Use `all_of(i)` instead of `i` to silence this message.
+## i See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+## This message is displayed once per session.
+\end{verbatim}
+
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-1.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-2.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-3.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-4.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-5.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-6.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-7.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-8.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-9.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-10.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-11.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-12.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-13.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-14.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-15.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-16.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-17.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-18.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-19.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-20.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-21.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-22.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-23.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-24.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-25.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-26.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-27.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-28.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-29.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-30.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-31.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-32.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-33.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-34.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-35.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-36.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-37.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-38.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-39.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-40.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-41.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-42.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-43.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-44.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-45.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-46.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-47.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-48.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-49.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-50.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-51.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-52.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-53.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-54.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-55.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-56.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-57.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-58.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-59.pdf}
+\includegraphics{Final-Project_files/figure-latex/unnamed-chunk-3-60.pdf}
+
+Preprocessing Steps - 1) Get rid of rows with no outcome data (moved out
+of blueprint for error testing) 2) Missing variable column for - AC Age,
+TC\_sib (NA is meaningful) 3) Make yrs ed into numeric variable Make
+income into numeric variable Make age @ dx into numeric variable 4) For
+factor variables w/ high number of levels, make ``other'' 5) Dummy code
+categorical variables, and drop OG 6) Multiple imputation is reasonable
+for most variables 7) For variables where NA is meaningful (= absence of
+AC or sib, set remaining values to 0 for regression models)
+
+\hypertarget{making-a-blueprint}{%
+\subsection{Making a Blueprint}\label{making-a-blueprint}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{outcome }\OtherTok{\textless{}{-}} \StringTok{"PSI\_total\_clinical"}
+\NormalTok{cat2num }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{select}\NormalTok{(og\_data, }\FunctionTok{matches}\NormalTok{(}\StringTok{"yrs\_ed|diagnosis\_age|income"}\NormalTok{))) }\CommentTok{\#variables that will be recoded to be numeric}
+\NormalTok{categorical }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{select}\NormalTok{(og\_data, }\FunctionTok{where}\NormalTok{(is.character) }\SpecialCharTok{\&} \SpecialCharTok{!}\NormalTok{(}\FunctionTok{matches}\NormalTok{(}\StringTok{"id|PSI"}\NormalTok{))))}
+\NormalTok{categorical }\OtherTok{\textless{}{-}}\NormalTok{ categorical[}\SpecialCharTok{!}\NormalTok{categorical }\SpecialCharTok{\%in\%}\NormalTok{ cat2num]}
+\NormalTok{numeric }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{names}\NormalTok{(}\FunctionTok{select}\NormalTok{(og\_data, }\FunctionTok{where}\NormalTok{(is.numeric))), cat2num)}
+\NormalTok{already\_dum }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{select}\NormalTok{(og\_data, }\FunctionTok{matches}\NormalTok{(}\StringTok{"TC\_race|gov\_assist|TC\_sib\_yes\_ct"}\NormalTok{))) }\CommentTok{\#some variables already "dummy" coded}
+\NormalTok{true\_numeric }\OtherTok{\textless{}{-}}\NormalTok{ numeric[}\SpecialCharTok{!}\NormalTok{numeric }\SpecialCharTok{\%in\%}\NormalTok{ already\_dum]}
+\NormalTok{na\_true }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{select}\NormalTok{(og\_data, }\FunctionTok{matches}\NormalTok{(}\StringTok{"AC|TC\_sib"}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{FALSE}\NormalTok{))) }\CommentTok{\#don\textquotesingle{}t impute data for alternate caregiver or subling variables}
+\NormalTok{impute\_vars }\OtherTok{\textless{}{-}}\NormalTok{ true\_numeric[}\SpecialCharTok{!}\NormalTok{true\_numeric }\SpecialCharTok{\%in\%}\NormalTok{ na\_true]}
+
+\NormalTok{stress\_blueprint }\OtherTok{\textless{}{-}} \FunctionTok{recipe}\NormalTok{(}\AttributeTok{x =}\NormalTok{ og\_data, }
+                    \AttributeTok{vars =} \FunctionTok{names}\NormalTok{(og\_data),}
+                    \AttributeTok{roles =} \FunctionTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{, }\StringTok{"outcome"}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\StringTok{"predictor"}\NormalTok{, }\DecValTok{86}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%} 
+                    \CommentTok{\#step\_filter(!is.na(PSI\_total\_clinical), skip = FALSE) \%\textgreater{}\% \#causing error }
+                    \FunctionTok{step\_indicate\_na}\NormalTok{(}\FunctionTok{matches}\NormalTok{(}\StringTok{"AC\_age"}\NormalTok{, }\StringTok{"TC\_sib\_yes\_ct"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+                    \FunctionTok{step\_other}\NormalTok{(}\FunctionTok{matches}\NormalTok{(}\StringTok{"PC\_reltoTC|employment|TC\_diagnosis|PC\_marital\_status|TC\_SPED"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#making yrs ed numeric}
+                    \FunctionTok{step\_mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{matches}\NormalTok{(}\StringTok{"yrs\_ed"}\NormalTok{), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{case\_when}\NormalTok{(}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"No formal"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{0}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"7th grade"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{7}\NormalTok{, }
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Junior high"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{8}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Partial high school"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{9}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"GED"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{12}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Partial college"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{13}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Specialized"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{14}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Associates"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{14}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"university grad"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{16}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Grad prof"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{18}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#making dx age numeric}
+                    \FunctionTok{step\_mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{matches}\NormalTok{(}\StringTok{"diagnosis\_age"}\NormalTok{), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{case\_when}\NormalTok{(}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"At birth"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{6}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"One"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{18}\NormalTok{, }
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Two"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{30}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Three"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{42}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Four"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{54}\NormalTok{,}
+                    \FunctionTok{str\_detect}\NormalTok{(., }\StringTok{"Five"}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \DecValTok{66}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#making annual income numeric}
+                    \FunctionTok{step\_mutate}\NormalTok{(}\AttributeTok{PC\_annual\_income =} 
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"less"}\NormalTok{), }\DecValTok{2500}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"14,999"}\NormalTok{), }\DecValTok{12500}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"19,999"}\NormalTok{), }\DecValTok{17500}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"24,999"}\NormalTok{), }\DecValTok{22500}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"29,999"}\NormalTok{), }\DecValTok{27500}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"39,999"}\NormalTok{), }\DecValTok{35000}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"49,999"}\NormalTok{), }\DecValTok{45000}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"59,999"}\NormalTok{), }\DecValTok{55000}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"69,999"}\NormalTok{), }\DecValTok{65000}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"79,999"}\NormalTok{), }\DecValTok{75000}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"89,999"}\NormalTok{), }\DecValTok{85000}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(PC\_annual\_income, }\StringTok{"more"}\NormalTok{), }\DecValTok{95000}\NormalTok{,}
+                                  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(PC\_annual\_income), }\ConstantTok{NA}\NormalTok{, }\DecValTok{7500}\NormalTok{)))))))))))))) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\#5,000 and $9,999 in all others}
+                    \FunctionTok{step\_impute\_mode}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(categorical)) }\SpecialCharTok{\%\textgreater{}\%}
+                    \FunctionTok{step\_zv}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+                    \FunctionTok{step\_dummy}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(categorical)) }\SpecialCharTok{\%\textgreater{}\%}
+                    \FunctionTok{step\_mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{matches}\NormalTok{(}\StringTok{"AC|TC\_sib"}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{FALSE}\NormalTok{), }
+                                       \SpecialCharTok{\textasciitilde{}}\FunctionTok{replace\_na}\NormalTok{(., }\DecValTok{0}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+                    \FunctionTok{step\_impute\_knn}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(impute\_vars), }\FunctionTok{all\_of}\NormalTok{(already\_dum)) }\SpecialCharTok{\%\textgreater{}\%}
+                    \FunctionTok{step\_normalize}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(true\_numeric))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{prepare }\OtherTok{\textless{}{-}} \FunctionTok{prep}\NormalTok{(stress\_blueprint, }\AttributeTok{training =}\NormalTok{ og\_data)}
+\NormalTok{stress\_data }\OtherTok{\textless{}{-}} \FunctionTok{bake}\NormalTok{(prepare, }\AttributeTok{new\_data =}\NormalTok{ og\_data)}
+
+\FunctionTok{head}\NormalTok{(stress\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 101
+##   study_id PSI_total_clinical TC_age_mos PC_age AC_age TC_race_Wh TC_race_Bl
+##   <fct>    <fct>                   <dbl>  <dbl>  <dbl>      <int>      <int>
+## 1 OP101    Yes                    -0.131  0.303  0.548          1          0
+## 2 OP102    Yes                    -1.08  -0.968 -1.91           1          0
+## 3 OP103    Yes                    -0.131 -0.587 -0.127          1          0
+## 4 OP104    No                     -1.27   0.430  0.241          1          0
+## 5 OP105    Yes                    -0.226 -0.332  0.364          1          0
+## 6 OP106    Yes                    -0.226  0.303  0.425          0          0
+## # ... with 94 more variables: TC_race_His <int>, TC_race_As <int>,
+## #   TC_race_Nat <int>, TC_race_Pac <int>, TC_race_Oth <int>, PC_yrs_ed <dbl>,
+## #   AC_yrs_ed <dbl>, PC_employ_hours <dbl>, PC_annual_income <dbl>,
+## #   gov_assist <int>, TC_diagnosis_age <dbl>, dyad_adjust <dbl>,
+## #   fam_support <dbl>, informal_support <dbl>, formal_support <dbl>,
+## #   CES_D <dbl>, CBCL_int_r <dbl>, CBCL_ext_r <dbl>, VABS_comm_ss <dbl>,
+## #   VABS_dls_ss <dbl>, VABS_soc_ss <dbl>, VABS_mot_ss <dbl>, ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Check for missingness}
+\NormalTok{look2 }\OtherTok{\textless{}{-}} \FunctionTok{ff\_glimpse}\NormalTok{(stress\_data)}
+
+\NormalTok{look2}\SpecialCharTok{$}\NormalTok{Continuous }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(missing\_n)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(missing\_n }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] label           var_type        n               missing_n      
+##  [5] missing_percent mean            sd              min            
+##  [9] quartile_25     median          quartile_75     max            
+## <0 rows> (or 0-length row.names)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{look2}\SpecialCharTok{$}\NormalTok{Categorical }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(missing\_n) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(missing\_n }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] label           var_type        n               missing_n      
+## [5] missing_percent levels_n        levels          levels_count   
+## [9] levels_percent 
+## <0 rows> (or 0-length row.names)
+\end{verbatim}
+
+\hypertarget{test-and-training-set}{%
+\subsection{Test and Training Set}\label{test-and-training-set}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{set.seed}\NormalTok{(}\DecValTok{121221}\NormalTok{)}
+\NormalTok{  split }\OtherTok{\textless{}{-}} \FunctionTok{initial\_split}\NormalTok{(og\_data, }\AttributeTok{prop =}\NormalTok{ .}\DecValTok{75}\NormalTok{)}
+\NormalTok{  stress\_train }\OtherTok{\textless{}{-}} \FunctionTok{training}\NormalTok{(split)}
+\NormalTok{  stress\_test }\OtherTok{\textless{}{-}} \FunctionTok{testing}\NormalTok{(split)}
+  
+\NormalTok{prepare }\OtherTok{\textless{}{-}} \FunctionTok{prep}\NormalTok{(stress\_blueprint, }
+                \AttributeTok{training =}\NormalTok{ stress\_train)}
+
+\NormalTok{baked\_train }\OtherTok{\textless{}{-}} \FunctionTok{bake}\NormalTok{(prepare, }\AttributeTok{new\_data =}\NormalTok{ stress\_train)}
+\NormalTok{baked\_test }\OtherTok{\textless{}{-}} \FunctionTok{bake}\NormalTok{(prepare, }\AttributeTok{new\_data =}\NormalTok{ stress\_test)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{functions}{%
+\subsection{Functions}\label{functions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#Making a crossfold function}
+
+\NormalTok{crossfold\_log }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(training\_data, folds)\{}
+  
+  \CommentTok{\#shuffle data}
+\NormalTok{  traning\_data }\OtherTok{\textless{}{-}}\NormalTok{ training\_data[}\FunctionTok{sample}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(training\_data)),]}
+  
+
+    \CommentTok{\# Create 10 folds with equal size}
+
+\NormalTok{      N\_folds }\OtherTok{=} \FunctionTok{cut}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FunctionTok{nrow}\NormalTok{(training\_data)),}\AttributeTok{breaks=}\NormalTok{ folds,}\AttributeTok{labels=}\ConstantTok{FALSE}\NormalTok{)}
+  
+    \CommentTok{\# Create the list for each fold }
+      
+\NormalTok{      my.indices }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{\textquotesingle{}list\textquotesingle{}}\NormalTok{,folds)}
+      \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{folds)\{}
+\NormalTok{        my.indices[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(N\_folds}\SpecialCharTok{!=}\NormalTok{i)}
+\NormalTok{      \}}
+      
+      \CommentTok{\#cross validation settings}
+      
+\NormalTok{      cv }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method    =} \StringTok{"cv"}\NormalTok{,}
+                   \AttributeTok{index           =}\NormalTok{ my.indices,}
+                   \AttributeTok{classProbs      =} \ConstantTok{TRUE}\NormalTok{,}
+                   \AttributeTok{summaryFunction =}\NormalTok{ mnLogLoss)}
+      
+      
+\FunctionTok{return}\NormalTok{(cv)}
+\NormalTok{\}}
+
+\CommentTok{\#Making an accuracy function }
+
+\NormalTok{accuracy }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(observed\_vector, predicted\_vector)\{}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(predicted\_vector,}
+\NormalTok{             observed\_vector,}
+             \AttributeTok{dnn =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Predicted\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Observed\textquotesingle{}}\NormalTok{))}
+
+
+
+\NormalTok{tn }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{tp }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{fp }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{fn }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+
+\NormalTok{acc }\OtherTok{\textless{}{-}}\NormalTok{ (tp }\SpecialCharTok{+}\NormalTok{ tn)}\SpecialCharTok{/}\NormalTok{(tp}\SpecialCharTok{+}\NormalTok{tn}\SpecialCharTok{+}\NormalTok{fp}\SpecialCharTok{+}\NormalTok{fn)}
+
+\FunctionTok{return}\NormalTok{(acc)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{model-building}{%
+\section{Model Building}\label{model-building}}
+
+\hypertarget{model-1}{%
+\subsection{Model 1}\label{model-1}}
+
+Ridge Regression
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cf }\OtherTok{\textless{}{-}} \FunctionTok{crossfold\_log}\NormalTok{(stress\_train, }\DecValTok{10}\NormalTok{) }\CommentTok{\#error occurs for both stress\_train and baked\_train}
+  
+\NormalTok{folds }\OtherTok{\textless{}{-}} \FunctionTok{vfold\_cv}\NormalTok{(stress\_train, }\DecValTok{10}\NormalTok{)}
+
+\NormalTok{cv }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method    =} \StringTok{"cv"}\NormalTok{,}
+                   \AttributeTok{number =} \DecValTok{10}\NormalTok{,}
+                   \AttributeTok{classProbs      =} \ConstantTok{TRUE}\NormalTok{,}
+                   \AttributeTok{summaryFunction =}\NormalTok{ mnLogLoss)}
+
+
+
+\NormalTok{ridge\_grid }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{alpha =} \DecValTok{0}\NormalTok{, }\AttributeTok{lambda =} \FunctionTok{c}\NormalTok{(}\FunctionTok{seq}\NormalTok{(.}\DecValTok{01}\NormalTok{, }\DecValTok{5}\NormalTok{, .}\DecValTok{1}\NormalTok{)))}
+
+
+
+\NormalTok{mod\_1 }\OtherTok{\textless{}{-}}\NormalTok{ caret}\SpecialCharTok{::}\FunctionTok{train}\NormalTok{(stress\_blueprint,}
+                      \AttributeTok{data =}\NormalTok{ stress\_train, }
+                         \AttributeTok{method    =} \StringTok{"glmnet"}\NormalTok{,}
+                         \AttributeTok{family    =} \StringTok{\textquotesingle{}binomial\textquotesingle{}}\NormalTok{,}
+                         \AttributeTok{metric    =} \StringTok{\textquotesingle{}logLoss\textquotesingle{}}\NormalTok{,}
+                        \AttributeTok{trControl =}\NormalTok{ cf,}
+                        \AttributeTok{tuneGrid  =}\NormalTok{ ridge\_grid)}
+\NormalTok{mod\_1}\SpecialCharTok{$}\NormalTok{bestTune}
+\FunctionTok{plot}\NormalTok{(mod\_1)}
+\end{Highlighting}
+\end{Shaded}
+
+I get an error - ``number of rows of result is not a multiple of vector
+length (arg 1)''\ldots{} It's possible rows are not lining up correctly
+either w/ the blueprint or cross validation settings. blueprint seems to
+be working to ``bake'' data\ldots{} This goes away when filtering step
+is applied outside of blueprint
+
+When filter step applied prior to blueprint, get errors for applying
+blueprint within model..
+
+\hypertarget{model-eval-metrics-and-variable-importance}{%
+\subsection{Model Eval Metrics and Variable
+Importance}\label{model-eval-metrics-and-variable-importance}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predicted\_test }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(mod\_1, stress\_test) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{as.numeric}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \SpecialCharTok{{-}}\DecValTok{1} \CommentTok{\#subtracting 1 b/c factor levels come out as 1/2 rather than 0/1}
+\NormalTok{observed\_test }\OtherTok{\textless{}{-}}\NormalTok{ stress\_test}\SpecialCharTok{$}\NormalTok{PSI\_total\_clinical }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.numeric}\NormalTok{()}
+
+
+\CommentTok{\#LogLoss    ACC ROC Sensitivity Specificity PPV}
+
+\CommentTok{\#LogLoss}
+\NormalTok{LL }\OtherTok{\textless{}{-}} \FunctionTok{logLoss}\NormalTok{(observed\_test, predicted\_test)}
+  
+\CommentTok{\#AUC}
+\NormalTok{AUC }\OtherTok{\textless{}{-}} \FunctionTok{auc}\NormalTok{(observed\_test, predicted\_test)}
+
+\CommentTok{\#Accuracy}
+\NormalTok{ACC }\OtherTok{\textless{}{-}} \FunctionTok{accuracy}\NormalTok{(observed\_test, predicted\_test)}
+
+\CommentTok{\#Sensitivity}
+\NormalTok{TPR }\OtherTok{\textless{}{-}} \FunctionTok{tpr}\NormalTok{(observed\_test, predicted\_test, }\AttributeTok{cutoff =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+
+\CommentTok{\#Specificity}
+\NormalTok{TNR }\OtherTok{\textless{}{-}} \FunctionTok{tnr}\NormalTok{(observed\_test, predicted\_test, }\AttributeTok{cutoff =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+
+\CommentTok{\#PPV}
+\NormalTok{PRE }\OtherTok{\textless{}{-}} \FunctionTok{precision}\NormalTok{(observed\_test, predicted\_test, }\AttributeTok{cutoff =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+
+\NormalTok{mod\_1\_stats }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Ridge Regression"}\NormalTok{, LL, AUC, TPR, TNR, PRE)}
+
+\CommentTok{\#Looking @ VIP for 20 feats}
+
+\FunctionTok{vip}\NormalTok{(mod\_1, }
+    \AttributeTok{num\_features =} \DecValTok{20}\NormalTok{, }
+    \AttributeTok{geom =} \StringTok{"point"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{model-2}{%
+\subsection{Model 2}\label{model-2}}
+
+Random Forests
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cf }\OtherTok{\textless{}{-}} \FunctionTok{crossfold\_log}\NormalTok{(stress\_train, }\DecValTok{10}\NormalTok{)}
+
+\CommentTok{\#tune trees }
+\CommentTok{\#Can do similar tuning for max depth}
+
+\NormalTok{mod\_tune }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{\textquotesingle{}list\textquotesingle{}}\NormalTok{,}\DecValTok{200}\NormalTok{)}
+    
+    \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{200}\NormalTok{)\{}
+      
+\NormalTok{      mod\_tune[[i]] }\OtherTok{\textless{}{-}}\NormalTok{ caret}\SpecialCharTok{::}\FunctionTok{train}\NormalTok{(blueprint\_recidivism,}
+                                \AttributeTok{data      =}\NormalTok{ recidivism\_tr,}
+                                \AttributeTok{method    =} \StringTok{\textquotesingle{}ranger\textquotesingle{}}\NormalTok{,}
+                                \AttributeTok{trControl =}\NormalTok{ cv,}
+                                \AttributeTok{tuneGrid  =}\NormalTok{ grid,}
+                                \AttributeTok{metric    =} \StringTok{\textquotesingle{}logLoss\textquotesingle{}}\NormalTok{,}
+                                \AttributeTok{num.trees =}\NormalTok{ i,}
+                                \AttributeTok{max.depth =} \DecValTok{60}\NormalTok{)}
+\NormalTok{    \}}
+
+
+\NormalTok{logLoss\_ }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{200}\NormalTok{)\{}
+  
+\NormalTok{  logLoss\_[i] }\OtherTok{=}\NormalTok{ mod\_tune[[i]]}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{logLoss}
+  
+\NormalTok{\}}
+
+
+\FunctionTok{ggplot}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\DecValTok{1}\SpecialCharTok{:}\DecValTok{200}\NormalTok{,}\AttributeTok{y=}\NormalTok{logLoss\_))}\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{\textquotesingle{}Number of Tree Models\textquotesingle{}}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{\textquotesingle{}Negative LogLoss\textquotesingle{}}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ylim}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{12}\NormalTok{))}\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Only tune N predictors
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Grid settings}
+\NormalTok{grid }\OtherTok{\textless{}{-}} \FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{mtry =} \DecValTok{30}\NormalTok{,}
+                    \AttributeTok{splitrule=}\StringTok{\textquotesingle{}gini\textquotesingle{}}\NormalTok{,}
+                    \AttributeTok{min.node.size=}\DecValTok{2}\NormalTok{)}
+
+
+\NormalTok{mod\_2 }\OtherTok{\textless{}{-}}\NormalTok{ caret}\SpecialCharTok{::}\FunctionTok{train}\NormalTok{(stress\_blueprint,}
+                        \AttributeTok{data      =}\NormalTok{ stress\_train,}
+                        \AttributeTok{method    =} \StringTok{\textquotesingle{}ranger\textquotesingle{}}\NormalTok{,}
+                        \AttributeTok{trControl =}\NormalTok{ cf,}
+                        \AttributeTok{tuneGrid  =}\NormalTok{ grid,}
+                        \AttributeTok{num.trees =} \DecValTok{500}\NormalTok{,}
+                        \AttributeTok{max.depth =} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+When filter in blueprint - Similar error occurs here, x Existing data
+has 27 rows. x Assigned data has 28 rows.
+
+It seems something is potentially going badly when making the cv setting
+- perhaps because blueprint uses some filter function?
+
+With filter not in blueprint: Currently get errors -- Warning in
+gower\_work(x = x, y = y, pair\_x = pair\_x, pair\_y = pair\_y, n = n, :
+skipping variable with zero or non-finite range Warning: model fit
+failed for Resample09: mtry=30, splitrule=gini, min.node.size=2 Error :
+Can't subset columns that don't exist. x Column
+\texttt{PCBOS\_PhysAgg\_SA} doesn't exist.
+
+Error in \{ : task 1 failed - ``\$ operator is invalid for atomic
+vectors''
+
+\hypertarget{model-2-performance}{%
+\subsection{Model 2 Performance}\label{model-2-performance}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predicted\_test }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(mod\_2, stress\_test) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{as.numeric}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \SpecialCharTok{{-}}\DecValTok{1} \CommentTok{\#subtracting 1 b/c factor levels come out as 1/2 rather than 0/1}
+\NormalTok{observed\_test }\OtherTok{\textless{}{-}}\NormalTok{ stress\_test}\SpecialCharTok{$}\NormalTok{PSI\_total\_clinical }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{as.numeric}\NormalTok{()}
+
+
+\CommentTok{\#LogLoss    ACC ROC Sensitivity Specificity PPV}
+
+\CommentTok{\#LogLoss}
+\NormalTok{LL }\OtherTok{\textless{}{-}} \FunctionTok{logLoss}\NormalTok{(observed\_test, predicted\_test)}
+  
+\CommentTok{\#AUC}
+\NormalTok{AUC }\OtherTok{\textless{}{-}} \FunctionTok{auc}\NormalTok{(observed\_test, predicted\_test)}
+
+\CommentTok{\#Accuracy}
+\NormalTok{ACC }\OtherTok{\textless{}{-}} \FunctionTok{accuracy}\NormalTok{(observed\_test, predicted\_test)}
+
+\CommentTok{\#Sensitivity}
+\NormalTok{TPR }\OtherTok{\textless{}{-}} \FunctionTok{tpr}\NormalTok{(observed\_test, predicted\_test, }\AttributeTok{cutoff =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+
+\CommentTok{\#Specificity}
+\NormalTok{TNR }\OtherTok{\textless{}{-}} \FunctionTok{tnr}\NormalTok{(observed\_test, predicted\_test, }\AttributeTok{cutoff =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+
+\CommentTok{\#PPV}
+\NormalTok{PRE }\OtherTok{\textless{}{-}} \FunctionTok{precision}\NormalTok{(observed\_test, predicted\_test, }\AttributeTok{cutoff =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+
+\NormalTok{mod\_2\_stats }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Ridge Regression"}\NormalTok{, LL, AUC, TPR, TNR, PRE)}
+
+\CommentTok{\#Looking @ VIP for 20 feats}
+
+\FunctionTok{vip}\NormalTok{(mod\_2, }
+    \AttributeTok{num\_features =} \DecValTok{20}\NormalTok{, }
+    \AttributeTok{geom =} \StringTok{"point"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{code-graveyard}{%
+\subsection{Code Graveyard}\label{code-graveyard}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+                    \CommentTok{\#step\_mutate(PC\_reltoTC = }
+                                  \CommentTok{\#ifelse(str\_detect(PC\_reltoTC, "Grandma|Grandpa|Aunt|Uncle"), "Kinship", }
+                                         \CommentTok{\#ifelse(str\_detect(PC\_reltoTC, "Bio"), "Bio Parent", }
+                                         \CommentTok{\#ifelse(str\_detect(PC\_reltoTC, "Adoptive|Partner|Step"), "Adoptive", }
+                                         \CommentTok{\#ifelse(str\_detect(PC\_reltoTC, "Foster"), "Foster", NA)))))}
+                    \CommentTok{\#taken out for now, but could re{-}implement if need to get more specific}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

@@ -2,9 +2,18 @@
 title: "ML Final"
 author: "Liz G"
 date: "12/9/2021"
-output: html_document
+output:
+  word_document:
+    toc: yes
+  html_document:
+    theme: flatly
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
+  
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -22,6 +31,7 @@ require(caret)
   require(finalfit)
   require(Hmisc)
   require(rsample)
+  require(vip)
 ```
 
 
@@ -53,9 +63,13 @@ look$Categorical %>% select(label, n, levels_n)
 
 #look @ distributions of numeric data
 cont_labels <- look$Continuous$label
-hist.data.frame(og_data %>% select(all_of(cont_labels)))
+
+for (i in cont_labels) {
+  hist(og_data %>% select(i))
+}
 
 ```
+
 
 
 Preprocessing Steps - 
@@ -87,7 +101,7 @@ impute_vars <- true_numeric[!true_numeric %in% na_true]
 stress_blueprint <- recipe(x = og_data, 
                     vars = names(og_data),
                     roles = c("ID", "outcome", rep("predictor", 86))) %>% 
-                    #step_filter(!is.na(PSI_total_clinical), skip = FALSE) %>%
+                    #step_filter(!is.na(PSI_total_clinical), skip = FALSE) %>% #causing error 
                     step_indicate_na(matches("AC_age", "TC_sib_yes_ct")) %>%
                     step_other(matches("PC_reltoTC|employment|TC_diagnosis|PC_marital_status|TC_SPED")) %>%
   #making yrs ed numeric
@@ -130,10 +144,13 @@ stress_blueprint <- recipe(x = og_data,
                     step_dummy(all_of(categorical)) %>%
                     step_mutate(across(matches("AC|TC_sib", ignore.case = FALSE), 
                                        ~replace_na(., 0))) %>%
-                    step_impute_knn(all_of(impute_vars), all_of(already_dum)) #%>%
+                    step_impute_knn(all_of(impute_vars), all_of(already_dum)) %>%
                     step_normalize(all_of(true_numeric))
+```
 
 
+
+```{r}
 prepare <- prep(stress_blueprint, training = og_data)
 stress_data <- bake(prepare, new_data = og_data)
 
@@ -148,6 +165,7 @@ look2$Categorical %>% arrange(missing_n) %>% filter(missing_n > 0)
 ```
 
 
+
 ## Test and Training Set
 
 ```{r}
@@ -156,11 +174,10 @@ look2$Categorical %>% arrange(missing_n) %>% filter(missing_n > 0)
   stress_train <- training(split)
   stress_test <- testing(split)
   
-prep <- prep(stress_blueprint, 
+prepare <- prep(stress_blueprint, 
                 training = stress_train)
 
 baked_train <- bake(prepare, new_data = stress_train)
-  
 baked_test <- bake(prepare, new_data = stress_test)
   
 
@@ -221,16 +238,12 @@ return(acc)
 }
 ```
 
-
-
-
 # Model Building
-
 ## Model 1
 
 Ridge Regression
 
-```{r}
+```{r echo=TRUE, eval=FALSE}
 
 cf <- crossfold_log(stress_train, 10) #error occurs for both stress_train and baked_train
   
@@ -243,22 +256,67 @@ cv <- trainControl(method    = "cv",
 
 
 
+ridge_grid <- data.frame(alpha = 0, lambda = c(seq(.01, 5, .1)))
 
-ridge_grid <- data.frame(alpha = 0, lambda = c(seq(.01, .1, .001), 5, 10, 100))
 
-mod_1 <- caret::train(stress_blueprint, 
-                      data = stress_train,
+
+mod_1 <- caret::train(stress_blueprint,
+                      data = stress_train, 
                          method    = "glmnet",
                          family    = 'binomial',
                          metric    = 'logLoss',
                         trControl = cf,
                         tuneGrid  = ridge_grid)
 mod_1$bestTune
+plot(mod_1)
+```
+
+I get an error - "number of rows of result is not a multiple of vector length (arg 1)"... It's possible rows are not lining up correctly either w/ the blueprint or cross validation settings. blueprint seems to be working to "bake" data... This goes away when filtering step is applied outside of blueprint 
+
+When filter step applied prior to blueprint, get errors for applying blueprint within model.. 
+
+
+## Model Eval Metrics and Variable Importance
+
+```{r echo=TRUE, eval=FALSE}
+
+predicted_test <- predict(mod_1, stress_test) %>% 
+  as.numeric() %>% -1 #subtracting 1 b/c factor levels come out as 1/2 rather than 0/1
+observed_test <- stress_test$PSI_total_clinical %>% as.numeric()
+
+
+#LogLoss	ACC	ROC	Sensitivity	Specificity	PPV
+
+#LogLoss
+LL <- logLoss(observed_test, predicted_test)
+  
+#AUC
+AUC <- auc(observed_test, predicted_test)
+
+#Accuracy
+ACC <- accuracy(observed_test, predicted_test)
+
+#Sensitivity
+TPR <- tpr(observed_test, predicted_test, cutoff = .5)
+
+#Specificity
+TNR <- tnr(observed_test, predicted_test, cutoff = .5)
+
+#PPV
+PRE <- precision(observed_test, predicted_test, cutoff = .5)
+
+mod_1_stats <- c("Ridge Regression", LL, AUC, TPR, TNR, PRE)
+
+#Looking @ VIP for 20 feats
+
+vip(mod_1, 
+    num_features = 20, 
+    geom = "point") + 
+  theme_bw()
 
 ```
 
-I get an error - "number of rows of result is not a multiple of vector length (arg 1)"... It's possible rows are not lining up correctly either w/ the blueprint or cross validation settings. blueprint seems to be working to "bake" data... 
-When filter step applied prior to blueprint, get errors for applying blueprint within model.. 
+
 
 
 ## Model 2
@@ -266,9 +324,49 @@ When filter step applied prior to blueprint, get errors for applying blueprint w
 Random Forests
 
 
-```{r}
+```{r echo=TRUE, eval=FALSE}
 cf <- crossfold_log(stress_train, 10)
 
+#tune trees 
+#Can do similar tuning for max depth
+
+mod_tune <- vector('list',200)
+    
+    for(i in 1:200){
+      
+      mod_tune[[i]] <- caret::train(blueprint_recidivism,
+                                data      = recidivism_tr,
+                                method    = 'ranger',
+                                trControl = cv,
+                                tuneGrid  = grid,
+                                metric    = 'logLoss',
+                                num.trees = i,
+                                max.depth = 60)
+    }
+
+
+logLoss_ <- c()
+
+for(i in 1:200){
+  
+  logLoss_[i] = mod_tune[[i]]$results$logLoss
+  
+}
+
+
+ggplot()+
+  geom_line(aes(x=1:200,y=logLoss_))+
+  xlab('Number of Tree Models')+
+  ylab('Negative LogLoss')+
+  ylim(c(0,12))+
+  theme_bw()
+
+
+```
+
+
+Only tune N predictors
+```{r echo=TRUE, eval=FALSE}
 # Grid settings
 grid <- expand.grid(mtry = 30,
                     splitrule='gini',
@@ -284,21 +382,66 @@ mod_2 <- caret::train(stress_blueprint,
                         max.depth = 10)
 ```
 
+
+When filter in blueprint - 
 Similar error occurs here, 
-
-
 x Existing data has 27 rows.
 x Assigned data has 28 rows.
 
 It seems something is potentially going badly when making the cv setting - perhaps because blueprint uses some filter function? 
 
+With filter not in blueprint: 
+Currently get errors --
+Warning in gower_work(x = x, y = y, pair_x = pair_x, pair_y = pair_y, n = n,  :
+  skipping variable with zero or non-finite range
+Warning: model fit failed for Resample09: mtry=30, splitrule=gini, min.node.size=2 Error : Can't subset columns that don't exist.
+x Column `PCBOS_PhysAgg_SA` doesn't exist.
+
+Error in { : task 1 failed - "$ operator is invalid for atomic vectors"
+
+## Model 2 Performance
+
+```{r echo=TRUE, eval=FALSE}
+predicted_test <- predict(mod_2, stress_test) %>% 
+  as.numeric() %>% -1 #subtracting 1 b/c factor levels come out as 1/2 rather than 0/1
+observed_test <- stress_test$PSI_total_clinical %>% as.numeric()
+
+
+#LogLoss	ACC	ROC	Sensitivity	Specificity	PPV
+
+#LogLoss
+LL <- logLoss(observed_test, predicted_test)
+  
+#AUC
+AUC <- auc(observed_test, predicted_test)
+
+#Accuracy
+ACC <- accuracy(observed_test, predicted_test)
+
+#Sensitivity
+TPR <- tpr(observed_test, predicted_test, cutoff = .5)
+
+#Specificity
+TNR <- tnr(observed_test, predicted_test, cutoff = .5)
+
+#PPV
+PRE <- precision(observed_test, predicted_test, cutoff = .5)
+
+mod_2_stats <- c("Ridge Regression", LL, AUC, TPR, TNR, PRE)
+
+#Looking @ VIP for 20 feats
+
+vip(mod_2, 
+    num_features = 20, 
+    geom = "point") + 
+  theme_bw()
+
+```
 
 
 
 
-
-
-##Code Graveyard
+## Code Graveyard
 ```{r}
                     #step_mutate(PC_reltoTC = 
                                   #ifelse(str_detect(PC_reltoTC, "Grandma|Grandpa|Aunt|Uncle"), "Kinship", 
